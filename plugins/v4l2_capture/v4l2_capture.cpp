@@ -119,6 +119,9 @@ static int v4l2_progress_image(const void *p, int size,
 		struct timeval timestamp, void *arg) {
 	v4l2_capture *_this = (v4l2_capture*) arg;
 
+
+  printf("v4l2_capture:v4l2_progress_image:s\n");
+
 	//remove space
 	for (; size > 0;) {
 		if (((unsigned char*) p)[size - 1] == 0xD9) {
@@ -203,16 +206,19 @@ static int v4l2_progress_image(const void *p, int size,
 		count++;
 	}
 
+  printf("v4l2_capture:v4l2_progress_image:e\n");
 	return _this->run ? 1 : 0;
 }
 
 static void* streaming_thread_fnc(void *arg) {
+  printf("v4l2_capture:streaming_thread_fnc:s\n");
 	v4l2_capture *_this = (v4l2_capture*) arg;
 
 	handle_v4l2(_this->vstream_filepath, BUFFER_NUM, _this->cam_width,
 			_this->cam_height, _this->cam_fps, v4l2_progress_image,
 			(void*) _this);
 
+  printf("v4l2_capture:streaming_thread_fnc:e\n");
 	return NULL;
 }
 
@@ -325,6 +331,8 @@ static void release(void *obj) {
 }
 
 static void create_capture(void *user_data, VSTREAMER_T **out_capture) {
+  printf("v4l2:create_capture:s\n");
+
 	VSTREAMER_T *capture = (VSTREAMER_T*) malloc(sizeof(v4l2_capture));
 	memset(capture, 0, sizeof(v4l2_capture));
 	strcpy(capture->name, CAPTURE_NAME);
@@ -342,6 +350,7 @@ static void create_capture(void *user_data, VSTREAMER_T **out_capture) {
 	if (out_capture) {
 		*out_capture = capture;
 	}
+  printf("v4l2:create_capture:e\n");
 }
 
 static int command_handler(void *user_data, const char *_buff) {
