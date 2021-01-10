@@ -217,6 +217,7 @@ static void* streaming_thread_fnc(void *arg) {
 }
 
 static void start(void *obj) {
+  printf("v4l2_capture:start:s\n");
 	v4l2_capture *_this = (v4l2_capture*) obj;
 
 	if (lg_v4l2_capture_ary[_this->cam_num]) {
@@ -256,6 +257,7 @@ static void start(void *obj) {
 
 	pthread_create(&_this->streaming_thread, NULL, streaming_thread_fnc,
 			(void*) _this);
+  printf("v4l2_capture:start:e\n");
 }
 
 static void stop(void *obj) {
