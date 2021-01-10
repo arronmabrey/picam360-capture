@@ -54,7 +54,7 @@ class Camera(SingletonConfigurable):
     def _send_comand(self, _cmd):
         cmd = '<picam360:command id="%d" value="%s" />'
         cmd = cmd % (self.cmd_id, _cmd)
-        #print(cmd)
+        print(cmd)
         self.rtp.send_packet(self.send_sock, SEND_PORT, PT_CMD, cmd.encode())
         self.cmd_id += 1
         
@@ -121,7 +121,7 @@ class Camera(SingletonConfigurable):
             self.active_frame['pixels'][self.active_frame['pixels_cur']:] = data[:]
             self.active_frame['pixels_cur'] += len(data)
             if self.active_frame['pixels_cur'] == self.active_frame['image_size']:
-                #print("new image!")
+                print("new image!")
                 w = int(self.active_frame['width'][2])
                 h = int(self.active_frame['height'][2])
                 if self.active_frame['img_type'][2] == "RGBA":
@@ -147,12 +147,14 @@ class Camera(SingletonConfigurable):
         return cmd
     
     def start(self):
+        print("py:start")
         self.rtp.start(IMAGE_PORT, self._parse_packet)
 
-    def stop(self):        
+    def stop(self):
+        print("py:stop")
         self.rtp.stop()
         self._send_comand(self._destroy_vstream_cmd())
-            
+
     def restart(self):
         self.stop()
         self.start()

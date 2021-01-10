@@ -396,6 +396,7 @@ static void* streaming_thread_fnc(void *obj) {
 }
 
 static void start(void *user_data) {
+  printf("window_gl_renderer:start:s");
 	window_gl_renderer *_this = (window_gl_renderer*) user_data;
 
 	if (_this->super.next_streamer) {
@@ -405,6 +406,8 @@ static void start(void *user_data) {
 	_this->run = true;
 	pthread_create(&_this->streaming_thread, NULL, streaming_thread_fnc,
 			user_data);
+
+  printf("window_gl_renderer:start:e");
 }
 
 static void stop(void *user_data) {
@@ -609,4 +612,3 @@ void create_window_plugin(PLUGIN_HOST_T *plugin_host, PLUGIN_T **_plugin) {
 		lg_plugin_host->add_vstreamer_factory(factory);
 	}
 }
-
