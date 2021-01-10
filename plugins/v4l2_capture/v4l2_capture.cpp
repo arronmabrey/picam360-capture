@@ -234,6 +234,7 @@ static void start(void *obj) {
 		_this->super.next_streamer->start(_this->super.next_streamer);
 	}
 
+  printf("v4l2_capture:start:****: cam_num=%a\n", _this->cam_num);
 	strncpy(_this->vstream_filepath, lg_devicefiles[_this->cam_num],
 			sizeof(_this->vstream_filepath));
 	_this->cam_width = lg_width;
@@ -445,6 +446,7 @@ static void init_options(void *user_data, json_t *_options) {
 		if (value) {
 			int len = json_string_length(value);
 			if (len < sizeof(lg_devicefiles[i])) {
+        printf("cam devicefile: i=%a value=%b\n", i, json_string_value(value));
 				strncpy(lg_devicefiles[i], json_string_value(value), len);
 			}
 		}
