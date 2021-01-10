@@ -405,7 +405,7 @@ static VSTREAMER_T* _build_vstream(PICAM360CAPTURE_T *state, char *buff) {
 }
 
 static VSTREAMER_T* build_vstream(uuid_t uuid, const char *_buff) {
-  printf("build_vstream:s uuid=%s\n", uuid);
+  /* printf("build_vstream:s uuid=%s\n", uuid); */
 	int len = strlen(_buff);
 	char *buff = (char*) malloc(len + 1);
 	strcpy(buff, _buff);
@@ -419,7 +419,7 @@ static VSTREAMER_T* build_vstream(uuid_t uuid, const char *_buff) {
 	LIST_TAIL(pp, state->vostream_list);
 	LIST_NEW(pp, vstreamer);
 
-  printf("build_vstream:e uuid=%s\n", uuid);
+  /* printf("build_vstream:e uuid=%s\n", uuid); */
 	return vstreamer;
 }
 
