@@ -111,6 +111,7 @@ static void* record_thread_func(void *obj) {
 	}
 }
 static void* streaming_thread_func(void *obj) {
+  printf("image_recorder:streaming_thread_func:s\n");
 	image_recorder_private *_this = (image_recorder_private*) obj;
 
 	while (_this->run) {
@@ -167,6 +168,7 @@ static void* streaming_thread_func(void *obj) {
 		}
 	}
 
+  printf("image_recorder:streaming_thread_func:e\n");
 	return NULL;
 }
 
@@ -481,6 +483,7 @@ static void release(void *obj) {
 }
 
 static void create_vstreamer(void *user_data, VSTREAMER_T **output_streamer) {
+  printf("image_recorder:create_vstreamer:s\n");
 	VSTREAMER_T *streamer = (VSTREAMER_T*) malloc(
 			sizeof(image_recorder_private));
 	memset(streamer, 0, sizeof(image_recorder_private));
@@ -500,6 +503,7 @@ static void create_vstreamer(void *user_data, VSTREAMER_T **output_streamer) {
 	if (output_streamer) {
 		*output_streamer = streamer;
 	}
+  printf("image_recorder:create_vstreamer:e\n");
 }
 
 static int command_handler(void *user_data, const char *_buff) {
