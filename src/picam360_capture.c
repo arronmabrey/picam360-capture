@@ -680,7 +680,7 @@ static int _command_handler(int argc, char *argv[]) {
 	} else if (strcmp(cmd, "snap") == 0) {
 		//TODO
 	} else if (strcmp(cmd, "build_vstream") == 0) {
-  printf("_command_handler:build_vstream:s");
+  printf("_command_handler:build_vstream:s\n");
 
 		char *s_str = NULL;
 		char uuid_str[37] = { };
@@ -706,18 +706,18 @@ static int _command_handler(int argc, char *argv[]) {
 			VSTREAMER_T *vstreamer = state->plugin_host.build_vstream(uuid,
 					s_str);
 			if (vstreamer) {
-        printf("_command_handler:build_vstream:1");
+        printf("_command_handler:build_vstream:1\n");
 				vstreamer->start(vstreamer);
-        printf("_command_handler:build_vstream:2");
+        printf("_command_handler:build_vstream:2\n");
 				printf("%s : complete uuid=%s\n", cmd, uuid_str);
 			} else {
-        printf("_command_handler:build_vstream:4");
+        printf("_command_handler:build_vstream:4\n");
 				printf("%s : failed uuid=%s\n", cmd, uuid_str);
 			}
 
 		}
 
-    printf("_command_handler:build_vstream:e");
+    printf("_command_handler:build_vstream:e\n");
 	} else if (strcmp(cmd, "destroy_vstream") == 0) {
 		bool delete_all = false;
 		char uuid_str[37] = { };
