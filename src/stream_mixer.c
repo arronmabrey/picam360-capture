@@ -114,12 +114,17 @@ static void* input_streaming_thread_func(void *obj) {
 static void input_start(void *user_data) {
   printf("stream_mixer:input_start:s\n");
 	stream_mixer_input *_this = (stream_mixer_input*) user_data;
+  printf("stream_mixer:input_start:0\n");
 
 	if (_this->super.next_streamer) {
+    printf("stream_mixer:input_start:1\n");
 		_this->super.next_streamer->start(_this->super.next_streamer);
+    printf("stream_mixer:input_start:2\n");
 	}
 
+  printf("stream_mixer:input_start:3\n");
 	_this->run = true;
+  printf("stream_mixer:input_start:4\n");
 	pthread_create(&_this->streaming_thread, NULL, input_streaming_thread_func,
 			(void*) _this);
   printf("stream_mixer:input_start:e\n");
