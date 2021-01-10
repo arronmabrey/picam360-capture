@@ -176,13 +176,18 @@ static void start(void *user_data) {
   printf("image_recorder:start:s\n");
 	image_recorder_private *_this = (image_recorder_private*) user_data;
 
+  printf("image_recorder:start:1\n");
 	if (_this->super.next_streamer) {
+    printf("image_recorder:start:2\n");
 		_this->super.next_streamer->start(_this->super.next_streamer);
+    printf("image_recorder:start:2b\n");
 	}
 
+  printf("image_recorder:start:3\n");
 	_this->run = true;
 	pthread_create(&_this->streaming_thread, NULL, streaming_thread_func,
 			(void*) _this);
+  printf("image_recorder:start:4\n");
 	pthread_create(&_this->record_thread, NULL, record_thread_func,
 			(void*) _this);
   printf("image_recorder:start:e\n");
