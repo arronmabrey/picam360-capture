@@ -208,6 +208,7 @@ static void stop(void *user_data) {
 }
 
 static size_t read_file(const char *file, unsigned char **data) {
+  printf("image_recorder:read_file:s\n");
 	if (data == NULL) {
 		return 0;
 	}
@@ -227,6 +228,7 @@ static size_t read_file(const char *file, unsigned char **data) {
 		fclose(fp);
 	}
 
+  printf("image_recorder:read_file:e\n");
 	return length;
 }
 
