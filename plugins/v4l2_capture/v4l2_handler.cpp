@@ -393,22 +393,22 @@ int handle_v4l2(const char *devicefile, int n_buffers, int width, int height, in
 	params.fps = fps;
 	params.n_buffers = n_buffers;
 
-  printf("v4l2_capture:handle_v4l2:2\n");
+  // printf("v4l2_capture:handle_v4l2:2\n");
 	if (open_device(&params) < 0) {
-    printf("v4l2_capture:handle_v4l2:3\n");
+    // printf("v4l2_capture:handle_v4l2:3\n");
 		return -1;
 	}
-  printf("v4l2_capture:handle_v4l2:4\n");
+  // printf("v4l2_capture:handle_v4l2:4\n");
 	init_device(&params);
-  printf("v4l2_capture:handle_v4l2:5\n");
+  // printf("v4l2_capture:handle_v4l2:5\n");
 	start_capturing(&params);
-  printf("v4l2_capture:handle_v4l2:6\n");
+  // printf("v4l2_capture:handle_v4l2:6\n");
 	mainloop(&params);
-  printf("v4l2_capture:handle_v4l2:7\n");
+  // printf("v4l2_capture:handle_v4l2:7\n");
 	stop_capturing(&params);
-  printf("v4l2_capture:handle_v4l2:8\n");
+  // printf("v4l2_capture:handle_v4l2:8\n");
 	uninit_device(&params);
-  printf("v4l2_capture:handle_v4l2:9\n");
+  // printf("v4l2_capture:handle_v4l2:9\n");
 	close_device(&params);
   printf("v4l2_capture:handle_v4l2:e\n");
 	return 0;

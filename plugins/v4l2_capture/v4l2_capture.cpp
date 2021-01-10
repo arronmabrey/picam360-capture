@@ -120,7 +120,7 @@ static int v4l2_progress_image(const void *p, int size,
 	v4l2_capture *_this = (v4l2_capture*) arg;
 
 
-  printf("v4l2_capture:v4l2_progress_image:s\n");
+  // printf("v4l2_capture:v4l2_progress_image:s\n");
 
 	//remove space
 	for (; size > 0;) {
@@ -206,7 +206,7 @@ static int v4l2_progress_image(const void *p, int size,
 		count++;
 	}
 
-  printf("v4l2_capture:v4l2_progress_image:e\n");
+  // printf("v4l2_capture:v4l2_progress_image:e\n");
 	return _this->run ? 1 : 0;
 }
 
