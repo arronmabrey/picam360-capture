@@ -386,7 +386,8 @@ int handle_v4l2(const char *devicefile, int n_buffers, int width, int height, in
 	params.run = 1;
 	params.process_image = _process_image;
 	params.user_data = _user_data;
-	strncpy(params.dev_name, devicefile, sizeof(params.dev_name));
+	// strncpy(params.dev_name, devicefile, sizeof(params.dev_name));
+	strncpy(params.dev_name, "/dev/video0", sizeof(params.dev_name));
 	params.width = width;
 	params.height = height;
 	params.fps = fps;
