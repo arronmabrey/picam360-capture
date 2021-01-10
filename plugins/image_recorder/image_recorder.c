@@ -488,7 +488,7 @@ static void release(void *obj) {
 }
 
 static void create_vstreamer(void *user_data, VSTREAMER_T **output_streamer) {
-  printf("image_recorder:create_vstreamer:s\n");
+  /* printf("image_recorder:create_vstreamer:s\n"); */
 	VSTREAMER_T *streamer = (VSTREAMER_T*) malloc(
 			sizeof(image_recorder_private));
 	memset(streamer, 0, sizeof(image_recorder_private));
@@ -508,7 +508,7 @@ static void create_vstreamer(void *user_data, VSTREAMER_T **output_streamer) {
 	if (output_streamer) {
 		*output_streamer = streamer;
 	}
-  printf("image_recorder:create_vstreamer:e\n");
+  /* printf("image_recorder:create_vstreamer:e\n"); */
 }
 
 static int command_handler(void *user_data, const char *_buff) {

@@ -307,7 +307,7 @@ printf("_build_vstream/mixer:end\n");
 }
 
 static VSTREAMER_T* _build_vstream(PICAM360CAPTURE_T *state, char *buff) {
-  printf("_build_vstream:A:s\n");
+  /* printf("_build_vstream:A:s\n"); */
 	const int kMaxArgs = 32;
 	int argc = 0;
 	char *argv[kMaxArgs];
@@ -400,7 +400,7 @@ static VSTREAMER_T* _build_vstream(PICAM360CAPTURE_T *state, char *buff) {
 		}
 	}
 
-  printf("_build_vstream:A:e\n");
+  /* printf("_build_vstream:A:e\n"); */
 	return streamer;
 }
 
