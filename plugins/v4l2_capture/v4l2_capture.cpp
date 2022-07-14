@@ -119,6 +119,9 @@ static int v4l2_progress_image(const void *p, int size,
 		struct timeval timestamp, void *arg) {
 	v4l2_capture *_this = (v4l2_capture*) arg;
 
+
+  // printf("v4l2_capture:v4l2_progress_image:s\n");
+
 	//remove space
 	for (; size > 0;) {
 		if (((unsigned char*) p)[size - 1] == 0xD9) {
@@ -203,20 +206,24 @@ static int v4l2_progress_image(const void *p, int size,
 		count++;
 	}
 
+  // printf("v4l2_capture:v4l2_progress_image:e\n");
 	return _this->run ? 1 : 0;
 }
 
 static void* streaming_thread_fnc(void *arg) {
+  printf("v4l2_capture:streaming_thread_fnc:s\n");
 	v4l2_capture *_this = (v4l2_capture*) arg;
 
 	handle_v4l2(_this->vstream_filepath, BUFFER_NUM, _this->cam_width,
 			_this->cam_height, _this->cam_fps, v4l2_progress_image,
 			(void*) _this);
 
+  printf("v4l2_capture:streaming_thread_fnc:e\n");
 	return NULL;
 }
 
 static void start(void *obj) {
+  printf("v4l2_capture:start:s\n");
 	v4l2_capture *_this = (v4l2_capture*) obj;
 
 	if (lg_v4l2_capture_ary[_this->cam_num]) {
@@ -227,6 +234,7 @@ static void start(void *obj) {
 		_this->super.next_streamer->start(_this->super.next_streamer);
 	}
 
+  printf("v4l2_capture:start:****: cam_num=%a\n", _this->cam_num);
 	strncpy(_this->vstream_filepath, lg_devicefiles[_this->cam_num],
 			sizeof(_this->vstream_filepath));
 	_this->cam_width = lg_width;
@@ -256,6 +264,7 @@ static void start(void *obj) {
 
 	pthread_create(&_this->streaming_thread, NULL, streaming_thread_fnc,
 			(void*) _this);
+  printf("v4l2_capture:start:e\n");
 }
 
 static void stop(void *obj) {
@@ -323,6 +332,8 @@ static void release(void *obj) {
 }
 
 static void create_capture(void *user_data, VSTREAMER_T **out_capture) {
+  printf("v4l2:create_capture:s\n");
+
 	VSTREAMER_T *capture = (VSTREAMER_T*) malloc(sizeof(v4l2_capture));
 	memset(capture, 0, sizeof(v4l2_capture));
 	strcpy(capture->name, CAPTURE_NAME);
@@ -340,6 +351,7 @@ static void create_capture(void *user_data, VSTREAMER_T **out_capture) {
 	if (out_capture) {
 		*out_capture = capture;
 	}
+  printf("v4l2:create_capture:e\n");
 }
 
 static int command_handler(void *user_data, const char *_buff) {
@@ -434,6 +446,7 @@ static void init_options(void *user_data, json_t *_options) {
 		if (value) {
 			int len = json_string_length(value);
 			if (len < sizeof(lg_devicefiles[i])) {
+        printf("cam devicefile: i=%a value=%b\n", i, json_string_value(value));
 				strncpy(lg_devicefiles[i], json_string_value(value), len);
 			}
 		}

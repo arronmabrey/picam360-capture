@@ -257,6 +257,7 @@ static int mixer_event_callback(void *user_data, enum STREAM_MIXER_EVENT event) 
 
 static VSTREAMER_T* _build_vstream(PICAM360CAPTURE_T *state, char *_buff);
 static STREAM_MIXER_T* _build_mixer(PICAM360CAPTURE_T *state, const char *name) {
+  printf("_build_vstream/mixer:1\n");
 	STREAM_MIXER_DEF_T *mixer_def = NULL;
 	LIST_T **pp;
 	LIST_FOR_START(pp, STREAM_MIXER_DEF_T, _mixer_def, state->stream_mixer_def_list)
@@ -296,13 +297,17 @@ static STREAM_MIXER_T* _build_mixer(PICAM360CAPTURE_T *state, const char *name) 
 		mixer->create_input(mixer, tail_p);
 		(*tail_p)->pre_streamer = pre;
 
+    printf("_build_vstream/mixer:2\n");
 		vistream->start(vistream);
+    printf("_build_vstream/mixer:3\n");
 	}
 
+printf("_build_vstream/mixer:end\n");
 	return mixer;
 }
 
 static VSTREAMER_T* _build_vstream(PICAM360CAPTURE_T *state, char *buff) {
+  /* printf("_build_vstream:A:s\n"); */
 	const int kMaxArgs = 32;
 	int argc = 0;
 	char *argv[kMaxArgs];
@@ -395,10 +400,12 @@ static VSTREAMER_T* _build_vstream(PICAM360CAPTURE_T *state, char *buff) {
 		}
 	}
 
+  /* printf("_build_vstream:A:e\n"); */
 	return streamer;
 }
 
 static VSTREAMER_T* build_vstream(uuid_t uuid, const char *_buff) {
+  /* printf("build_vstream:s uuid=%s\n", uuid); */
 	int len = strlen(_buff);
 	char *buff = (char*) malloc(len + 1);
 	strcpy(buff, _buff);
@@ -412,6 +419,7 @@ static VSTREAMER_T* build_vstream(uuid_t uuid, const char *_buff) {
 	LIST_TAIL(pp, state->vostream_list);
 	LIST_NEW(pp, vstreamer);
 
+  /* printf("build_vstream:e uuid=%s\n", uuid); */
 	return vstreamer;
 }
 
@@ -674,6 +682,8 @@ static int _command_handler(int argc, char *argv[]) {
 	} else if (strcmp(cmd, "snap") == 0) {
 		//TODO
 	} else if (strcmp(cmd, "build_vstream") == 0) {
+  printf("_command_handler:build_vstream:s\n");
+
 		char *s_str = NULL;
 		char uuid_str[37] = { };
 		uuid_t uuid = { };
@@ -698,13 +708,18 @@ static int _command_handler(int argc, char *argv[]) {
 			VSTREAMER_T *vstreamer = state->plugin_host.build_vstream(uuid,
 					s_str);
 			if (vstreamer) {
+        printf("_command_handler:build_vstream:1\n");
 				vstreamer->start(vstreamer);
+        printf("_command_handler:build_vstream:2\n");
 				printf("%s : complete uuid=%s\n", cmd, uuid_str);
 			} else {
+        printf("_command_handler:build_vstream:4\n");
 				printf("%s : failed uuid=%s\n", cmd, uuid_str);
 			}
 
 		}
+
+    printf("_command_handler:build_vstream:e\n");
 	} else if (strcmp(cmd, "destroy_vstream") == 0) {
 		bool delete_all = false;
 		char uuid_str[37] = { };
@@ -1165,6 +1180,8 @@ static void send_command(const char *_cmd) {
 	pthread_mutex_lock(&state->cmd_list_mutex);
 
 	char *cmd = (char*) _cmd;
+  printf("send_command:1 %s\n", cmd);
+
 	LIST_T **cur = NULL;
 	if (strncmp(cmd, ENDPOINT_DOMAIN, ENDPOINT_DOMAIN_SIZE) == 0) {
 		if (state->options.rtp_rx_port == 0) {
@@ -1900,4 +1917,3 @@ int main(int argc, char *argv[]) {
 	exit_func();
 	return 0;
 }
-

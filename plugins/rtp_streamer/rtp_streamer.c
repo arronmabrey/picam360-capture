@@ -130,6 +130,7 @@ static void* streaming_thread_fnc(void *obj) {
 }
 
 static void start(void *user_data) {
+  printf("rtp_streamer:start:s\n");
 	rtp_streamer_private *_this = (rtp_streamer_private*) user_data;
 
 	if (_this->super.next_streamer) {
@@ -139,6 +140,7 @@ static void start(void *user_data) {
 	_this->run = true;
 	pthread_create(&_this->streaming_thread, NULL, streaming_thread_fnc,
 			user_data);
+  printf("rtp_streamer:start:e\n");
 }
 
 static void stop(void *user_data) {

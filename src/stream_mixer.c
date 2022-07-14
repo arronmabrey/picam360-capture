@@ -59,6 +59,7 @@ typedef struct _stream_mixer_private {
 } stream_mixer_private;
 
 static void* input_streaming_thread_func(void *obj) {
+  printf("input_streaming_thread_func:s\n");
 	stream_mixer_input *_this = (stream_mixer_input*) obj;
 
 	while (_this->run) {
@@ -108,19 +109,27 @@ static void* input_streaming_thread_func(void *obj) {
 		}
 	}
 
+  printf("input_streaming_thread_func:e\n");
 	return NULL;
 }
 
 static void input_start(void *user_data) {
+  printf("stream_mixer:input_start:s\n");
 	stream_mixer_input *_this = (stream_mixer_input*) user_data;
+  printf("stream_mixer:input_start:0\n");
 
 	if (_this->super.next_streamer) {
+    printf("stream_mixer:input_start:1\n");
 		_this->super.next_streamer->start(_this->super.next_streamer);
+    printf("stream_mixer:input_start:2\n");
 	}
 
+  printf("stream_mixer:input_start:3\n");
 	_this->run = true;
+  printf("stream_mixer:input_start:4\n");
 	pthread_create(&_this->streaming_thread, NULL, input_streaming_thread_func,
 			(void*) _this);
+  printf("stream_mixer:input_start:e\n");
 }
 
 static void input_stop(void *user_data) {

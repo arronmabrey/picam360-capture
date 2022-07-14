@@ -75,6 +75,7 @@ static char lg_record_path[512] = "Videos";
 static enum RECORDER_MODE lg_recorder_mode = RECORDER_MODE_IDLE;
 
 static void* record_thread_func(void *obj) {
+  printf("image_recorder:record_thread_func:s\n");
 	image_recorder_private *_this = (image_recorder_private*) obj;
 
 	while (1) {
@@ -100,7 +101,7 @@ static void* record_thread_func(void *obj) {
 			}
 		}
 
-		//printf("save! : %s : %d\n", node->path, node->images[0]->stride[0]);
+		printf("save! : %s : %d\n", node->path, node->images[0]->stride[0]);
 
 		int ret = save_picam360_image_to_file(node->path, node->images,
 				node->num, _this->pif_split);
@@ -109,8 +110,10 @@ static void* record_thread_func(void *obj) {
 		}
 		free(node);
 	}
+  printf("image_recorder:record_thread_func:e\n");
 }
 static void* streaming_thread_func(void *obj) {
+  printf("image_recorder:streaming_thread_func:s\n");
 	image_recorder_private *_this = (image_recorder_private*) obj;
 
 	while (_this->run) {
@@ -167,21 +170,29 @@ static void* streaming_thread_func(void *obj) {
 		}
 	}
 
+  printf("image_recorder:streaming_thread_func:e\n");
 	return NULL;
 }
 
 static void start(void *user_data) {
+  printf("image_recorder:start:s\n");
 	image_recorder_private *_this = (image_recorder_private*) user_data;
 
+  printf("image_recorder:start:1\n");
 	if (_this->super.next_streamer) {
+    printf("image_recorder:start:2\n");
 		_this->super.next_streamer->start(_this->super.next_streamer);
+    printf("image_recorder:start:2b\n");
 	}
 
+  printf("image_recorder:start:3\n");
 	_this->run = true;
 	pthread_create(&_this->streaming_thread, NULL, streaming_thread_func,
 			(void*) _this);
+  printf("image_recorder:start:4\n");
 	pthread_create(&_this->record_thread, NULL, record_thread_func,
 			(void*) _this);
+  printf("image_recorder:start:e\n");
 }
 
 static void stop(void *user_data) {
@@ -199,6 +210,7 @@ static void stop(void *user_data) {
 }
 
 static size_t read_file(const char *file, unsigned char **data) {
+  printf("image_recorder:read_file:s\n");
 	if (data == NULL) {
 		return 0;
 	}
@@ -218,6 +230,7 @@ static size_t read_file(const char *file, unsigned char **data) {
 		fclose(fp);
 	}
 
+  printf("image_recorder:read_file:e\n");
 	return length;
 }
 
@@ -479,6 +492,7 @@ static void release(void *obj) {
 }
 
 static void create_vstreamer(void *user_data, VSTREAMER_T **output_streamer) {
+  /* printf("image_recorder:create_vstreamer:s\n"); */
 	VSTREAMER_T *streamer = (VSTREAMER_T*) malloc(
 			sizeof(image_recorder_private));
 	memset(streamer, 0, sizeof(image_recorder_private));
@@ -498,6 +512,7 @@ static void create_vstreamer(void *user_data, VSTREAMER_T **output_streamer) {
 	if (output_streamer) {
 		*output_streamer = streamer;
 	}
+  /* printf("image_recorder:create_vstreamer:e\n"); */
 }
 
 static int command_handler(void *user_data, const char *_buff) {
